@@ -18,6 +18,7 @@ OBJECTS = \
 	stoj.$(CMO)
 
 all: $(TARGETS)
+	[ -f index.cgi ] && (chmod a+x index.cgi)
 
 graphconc: graphconc.ml
 	$(OCAMLC) $< -o $@
