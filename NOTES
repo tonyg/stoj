@@ -1,0 +1,49 @@
+ a&b
+
+    a       b
+   ___     ___
+    |       |
+    |       |
+    |       |
+    |       |
+    1       1
+     \     /
+      \   /
+        2
+
+ a&a
+
+    a
+   ___
+    |
+    |
+    |
+    |
+    2
+    |
+    |
+    2
+
+
+Each channel has a map from (joinid -> inputhandler)
+Each inputhandler gets given the current channel length
+	and sets its state accordingly
+If its state changes, it signals the change to its join
+If the join is complete, it enables itself
+
+
+When a particular join is chosen, it disables itself
+	and for each channel in the join removes the join's
+	entry from the channel's joinid map
+
+The enabled branches should be a map (joinid -> join)
+
+Each join has a rate and a continuation
+
+Rates:
+
+  1'		k[a]		mol/L		* L * (1/s)/mol == 1/s
+  2'		k[a][b]		mol^2/L^2	* L * (1/s)/(mol^2/L) == 1/s
+  3'		k[a][b][c]	mol^3/L^3	* L * (1/s)/(mol^3/L^2) == 1/s
+
+I'm unsure as to the physical interpretation of second- and third-order rates.

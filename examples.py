@@ -1,0 +1,5 @@
+X00_basic_hcl = ('test-stochasticity.stoj', 200, 0, 0.009)
+X01_dna_no_promoter = ('test-phillips.stoj', 50000, 0, 0)
+X01_dna_with_promoter = ('test-phillips+promoter.stoj', 50000, 0, 0)
+X02_dna_simplified = ('test-phillips-simplified.stoj', 50000, 0, 0)
+X03_circadian = ('test-circadian.stoj', 100000, 0, 0)

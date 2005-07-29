@@ -1,0 +1,47 @@
+// Circadian clock model
+// Based on Regev et al
+
+new
+	DNA_a, DNA_r,
+	!MRNA_a, !MRNA_r,
+	!protein_a, !protein_r,
+	DNA_a_promoted, DNA_r_promoted,
+	!complex_ar . (
+
+// Start state.
+DNA_a<> | DNA_r<>
+
+// Basal rate transcription.
+| rec L. DNA_a() ->[4]		(DNA_a<> | MRNA_a<> | L)
+| rec L. DNA_r() ->[0.001]	(DNA_r<> | MRNA_r<> | L)
+
+// MRNA degradation.
+| rec L. MRNA_a() ->[1.0]	(L)
+| rec L. MRNA_r() ->[0.02]	(L)
+
+// Translation.
+| rec L. MRNA_a() ->[1.0]	(MRNA_a<> | protein_a<> | L)
+| rec L. MRNA_r() ->[0.1]	(MRNA_r<> | protein_r<> | L)
+
+// Protein degradation.
+| rec L. protein_a() ->[0.1]	(L)
+| rec L. protein_r() ->[0.01]	(L)
+
+// A/R Complex formation.
+| rec L. protein_a() & protein_r() ->[100.0]	(complex_ar<> | L)
+
+// A/R Complex degradation.
+| rec L. complex_ar() ->[0.1]	(protein_r<> | L)
+| rec L. complex_ar() ->[0.01]	(protein_a<> | L)
+
+// Activator binding/unbinding to A promoter, and enhanced transcription
+| rec L. protein_a() & DNA_a() ->[10]	(DNA_a_promoted<> | L)
+| rec L. DNA_a_promoted() ->[10]	(protein_a<> | DNA_a<> | L)
+| rec L. DNA_a_promoted() ->[40]	(DNA_a_promoted<> | MRNA_a<> | L)
+
+// Activator binding/unbinding to R promoter, and enhanced transcription
+| rec L. protein_a() & DNA_r() ->[10]	(DNA_r_promoted<> | L)
+| rec L. DNA_r_promoted() ->[100]	(protein_a<> | DNA_r<> | L)
+| rec L. DNA_r_promoted() ->[2]		(DNA_r_promoted<> | MRNA_r<> | L)
+
+)

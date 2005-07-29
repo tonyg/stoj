@@ -1,0 +1,8 @@
+// comment
+new !a, !b, !c . (
+    rec A. a() & b() -> (c<> | A)
+    |
+    rec C. c() -> (a<> | b<> | C)
+    |
+    a<> | b<>
+)

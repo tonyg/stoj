@@ -1,0 +1,11 @@
+// A simple H + Cl <--> HCl model,
+// similar to that in Andrew Phillips' slides
+// with numbers taken from his slides.
+// See http://www.doc.ic.ac.uk/~anp/spim/Slides.pdf
+// page 16.
+
+new !h, !cl, !hcl . (
+  rec ASSOC.  h() & cl() ->[100] (hcl<> | ASSOC)
+| rec DISSOC. hcl() ->[10] (h<> | cl<> | DISSOC)
+| h<> * 100 | cl<> * 100
+)

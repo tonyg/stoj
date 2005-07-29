@@ -1,0 +1,25 @@
+<Files *>
+	Order deny,allow
+	Deny from all
+</Files>
+
+<Files .>
+	Order allow,deny
+	Allow from all
+</Files>
+
+<Files stoj>
+	Order allow,deny
+	Allow from all
+</Files>
+
+<Files index.cgi>
+	Order allow,deny
+	Allow from all
+</Files>
+
+<Files stojvis.jar>
+	Order allow,deny
+	Allow from all
+</Files>
+

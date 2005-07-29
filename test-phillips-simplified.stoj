@@ -1,0 +1,10 @@
+new mrna, !protein, dna, !rnap . (
+
+dna<> | rnap<> * 500
+
+| rec LOOP . dna() & rnap() ->[1] ( dna<> | mrna<> | rnap<> | LOOP)
+| rec LOOP . mrna() ->[1] (mrna<> | protein<> | LOOP)
+| rec LOOP . mrna() ->[1] LOOP
+| rec LOOP . protein() ->[1] LOOP
+
+)

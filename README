@@ -1,0 +1,77 @@
+---------------------------------------------------------------------------
+StoJ README
+---------------------------------------------------------------------------
+
+StoJ is a polyadic, asynchronous stochastic pi calculus with input
+join and no summation. Rates are associated with a join, not with a
+channel.
+
+Lexical structure:
+ - comments start with // and extend to the end of the line
+ - "new", "stop" and "rec" are keywords
+ - float syntax is [0-9]+(\.[0-9]+)?
+ - ints are just [0-9]+
+ - identifiers start with a letter and may contain letters, digits
+   and underscores
+
+Syntax:
+---------------------------------------------------------------------------
+ process :== process_atom "|" process
+ 	 |   process_atom
+
+ process_atom :== "rec" id "." process_atom
+ 	      |	  "new" annotated_idlist "." process_atom
+	      |	  id			(* a process variable reference *)
+	      |	  "stop"
+	      |	  id "<" idlist ">"
+	      |	  id "<" idlist ">" "*" int	(* clone output *)
+	      |	  branch
+	      |	  "(" process ")"
+
+ branch :== prefix (suffix)?
+
+ prefix :== ID "(" idlist ")" "&" prefix	(* join *)
+ 	|   ID "(" idlist ")"
+
+ suffix :== "->" "[" float "]" process_atom
+ 	|   "->"     	       process_atom
+
+ idlist :== (* empty *)
+ 	|   idlist_nonempty
+
+ idlist_nonempty :== id
+ 		 |   id "," idlist_nonempty
+
+ annotated_idlist :== ann_id
+ 		  |   ann_id "," annotated_idlist
+
+ ann_id :== "!" ID
+ 	  |   ID
+---------------------------------------------------------------------------
+
+"rec" binds a process variable. A naked identifier references a
+process variable.
+
+When using "new", prefixing a new channel name with "!" causes events
+on that channel to be logged to stdout as part of the program
+output. Use "!" to mark channels you wish to have timing and event
+data for. The "row limit" in the CGI interface places a limit on the
+number of logged data rows (time vs. per-channel counts) per run.
+
+Suffixing an output with "*" and a count, as in
+
+	h<> * 50
+
+causes a number of duplicates of the message to be placed atomically
+on the channel. In the example just above, 50 copies of <> would be
+placed on channel h, similar to:
+
+	(h<> | h<> | ... ... ... | h<>)
+
+Annotating an input prefix with a rate,
+
+	h() & cl() ->[0.03] (hcl<> | ...)
+
+causes that reaction to be processed via Gillespie's algorithm. Any
+unrated arrow proceeds at an infinite rate - as soon as the join to
+the left of the arrow is enabled, the comm takes place.
