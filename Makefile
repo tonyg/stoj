@@ -18,9 +18,9 @@ OBJECTS = \
 	stoj.$(CMO)
 
 all: $(TARGETS)
-	[ -f index.cgi.py ] && (chmod a+x index.cgi.py)
+	[ -f stoj.cgi.py ] && (chmod a+x stoj.cgi.py)
 
-index.cgi: index.cgi.py
+index.cgi: stoj.cgi.py
 	ln -s $< $@
 
 graphconc: graphconc.ml
