@@ -8,7 +8,7 @@ CMO = cmx
 OCAMLRUN =
 endif
 
-TARGETS = stojrun visdump graphconc
+TARGETS = stojrun visdump graphconc index.cgi
 OBJECTS = \
 	stojlang.$(CMO) \
 	stojparse.cmi \
@@ -18,7 +18,10 @@ OBJECTS = \
 	stoj.$(CMO)
 
 all: $(TARGETS)
-	[ -f index.cgi ] && (chmod a+x index.cgi)
+	[ -f index.cgi.py ] && (chmod a+x index.cgi.py)
+
+index.cgi: index.cgi.py
+	ln -s $< $@
 
 graphconc: graphconc.ml
 	$(OCAMLC) $< -o $@
