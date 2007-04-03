@@ -59,12 +59,14 @@ def visprog(program):
       <title>StoJ Program Visualisation</title>
   </head>
   <body>
-    <applet code="Vis.class" archive="vis/stojvis.jar" width=800 height=600>
+    <applet code="Vis.class" codebase="%(codebase)s" archive="vis/stojvis.jar" width=800 height=600>
       <param name=graph value="%(graph)s">
     </applet>
   </body>
 </html>
-""" % {'graph': urlEncode(graph)}
+""" % {'graph': urlEncode(graph),
+       'codebase': ('//' + os.environ['HTTP_HOST'] + ':' + os.environ['SERVER_PORT'] +
+                    os.environ['REQUEST_URI'])}
 
 if form.has_key('program') and form.has_key('limit') and form.has_key('seed'):
     program = form['program'].value
