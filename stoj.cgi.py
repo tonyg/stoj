@@ -9,10 +9,7 @@ import cgitb; cgitb.enable()
 import examples
 
 if sys.platform == 'darwin':
-    python_path = '/sw/bin/python'
-    os.environ['PATH'] = os.environ['PATH'] + ':/sw/bin'
-else:
-    python_path = '/usr/bin/python'
+    os.environ['PATH'] = os.environ['PATH'] + ':/sw/bin:/usr/local/bin'
 
 if os.environ.has_key('DISPLAY'):
     del os.environ['DISPLAY']
