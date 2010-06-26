@@ -1,0 +1,14 @@
+stojrun
+visdump
+graphconc
+index.cgi
+stojlex.ml
+stojparse.mli
+stojparse.ml
+stojparse.output
+*.cmi
+*.cmo
+*.cmx
+*.o
+*.class
+vis/stojvis.jar
