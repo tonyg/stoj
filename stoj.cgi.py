@@ -21,14 +21,23 @@ form = cgi.FieldStorage()
 
 def pipedata(command, data):
     (cin, cout, cerr) = os.popen3(command)
-    cin.write(data)
+    try:
+        cin.write(data)
+        success = True
+    except:
+        success = False
     cin.flush()
     cin.close()
     result = cout.read()
     cout.close()
     errs = cerr.read()
     cerr.close()
-    return (result, errs)
+    if success:
+        return (result, errs)
+    else:
+        sys.stderr.write('Stdout:\n' + result)
+        sys.stderr.write('Stderr:\n' + errs)
+        raise
 
 def failrun(errors):
     print """Content-type: text/html
